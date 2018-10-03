@@ -8,9 +8,9 @@ import java.io.IOException;
 public class ReservationApp {
 
     private final static int PORT = 2500;
-    private Factory factory;
+    private static Factory factory;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
         try {
             factory = new FactoryServices();

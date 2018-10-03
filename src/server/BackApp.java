@@ -8,9 +8,9 @@ import java.io.IOException;
 public class BackApp {
 
     private final static int PORT = 2700;
-    private Factory factory;
+    private static Factory factory;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
         try {
             factory = new FactoryServices();
