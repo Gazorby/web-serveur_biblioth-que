@@ -12,8 +12,9 @@ class Server implements Runnable {
 	private Factory factory;
 	
 	// Cree un server TCP - objet de la classe ServerSocket
-	Server(int port) throws IOException {
+	Server(int port, Factory factory) throws IOException {
 		listen_socket = new ServerSocket(port);
+		this.factory = factory;
 	}
 
 	/** Le server ecoute et accepte les connexions.
