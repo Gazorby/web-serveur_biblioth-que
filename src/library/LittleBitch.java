@@ -1,13 +1,13 @@
 package library;
 
-import app.Document;
+import app.Bitch;
 import app.Subscriber;
 
-public class Book implements Document {
+public class LittleBitch implements Bitch {
 
     private int num;
 
-    public Book(int num) {
+    public LittleBitch(int num) {
         this.num = num;
     }
 
