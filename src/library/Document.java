@@ -1,4 +1,4 @@
-package app;
+package library;
 
 import exception.NotAvailableException;
 

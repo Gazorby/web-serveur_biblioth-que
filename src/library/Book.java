@@ -1,8 +1,5 @@
 package library;
 
-import app.Document;
-import app.Subscriber;
-
 public class Book implements Document {
 
     private int num;

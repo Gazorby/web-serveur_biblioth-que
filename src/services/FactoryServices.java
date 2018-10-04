@@ -1,6 +1,6 @@
 package services;
 
-import app.Factory;
+import server.Factory;
 
 import java.net.Socket;
 

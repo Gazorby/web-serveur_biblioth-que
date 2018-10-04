@@ -1,4 +1,4 @@
-package app;
+package library;
 
 public class Subscriber {
     private int num;
