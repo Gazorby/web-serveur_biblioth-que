@@ -3,7 +3,8 @@ package server;
 public enum PORTS {
     RESERVATION_PORT (2500),
     BORROW_PORT (2600),
-    BACK_PORT (2700);
+    BACK_PORT (2700),
+    NONE(-1);
 
     private final int port;
 
@@ -11,7 +12,7 @@ public enum PORTS {
         this.port = port;
     }
 
-    public int getPort() {
+    public int getValue() {
         return this.port;
     }
 }
