@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class Library {
 
-    private static List<Subscriber> subscribers = new ArrayList<Subscriber>();
-    private static Map<Integer, Book> books = new HashMap<Integer, Book>();
+    public static List<Subscriber> subscribers = new ArrayList<Subscriber>();
+    public static Map<Integer, Book> books = new HashMap<Integer, Book>();
 
     static {
         subscribers.add(new Subscriber(1));
@@ -19,6 +19,6 @@ public class Library {
     static {
         books.put(1, new Book(1));
         books.put(2, new Book(2));
-        books.put(3, new Book(1));
+        books.put(3, new Book(3));
     }
 }

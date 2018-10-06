@@ -5,6 +5,7 @@ import server.Factory;
 import java.net.Socket;
 
 public class FactoryServices implements Factory {
+
     @Override
     public Service getResService(Socket accept) {
         return new ReservationService(accept);

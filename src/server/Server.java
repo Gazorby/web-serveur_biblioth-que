@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 
-class Server implements Runnable {
-	private ServerSocket listen_socket;
+public class Server implements Runnable {
+	private ServerSocket listenSocket;
 	private int port;
 	private Factory factory;
 	
 	// Cree un server TCP - objet de la classe ServerSocket
 	Server(int port, Factory factory) throws IOException {
-		listen_socket = new ServerSocket(port);
+		listenSocket = new ServerSocket(port);
 		this.factory = factory;
+		this.port = port;
 	}
 
 	/** Le server ecoute et accepte les connexions.
@@ -26,28 +27,26 @@ class Server implements Runnable {
 				switch (port) {
 
 					case 2500 :
-						factory.getResService(listen_socket.accept()).launch();
+						factory.getResService(listenSocket.accept()).launch();
 						break;
 
 					case 2600 :
-						factory.getBorrowService(listen_socket.accept()).launch();
+						factory.getBorrowService(listenSocket.accept()).launch();
 						break;
 
 					case 2700 :
-						factory.getBackService(listen_socket.accept()).launch();
+						factory.getBackService(listenSocket.accept()).launch();
+						break;
+
+					default:
 						break;
 				}
 			}
 
 		}
 		catch (IOException e) { 
-			try {this.listen_socket.close();} catch (IOException e1) {}
+			try {this.listenSocket.close();} catch (IOException e1) {}
 			System.err.println("Pb sur le port d'écoute :"+e);
 		}
-	}
-
-	 // restituer les ressources --> finalize
-	protected void finalize() {
-		try {this.listen_socket.close();} catch (IOException e1) {}
 	}
 }
