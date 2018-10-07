@@ -1,39 +1,40 @@
 package library;
 
 import exception.NotAvailableException;
+import state.Available;
+import state.State;
 
-public class Book extends GenericDocument {
+public class Book implements Document {
 
+    private int num;
+    private State state;
 
     public Book(int num) {
-        super(num);
+        this.num = num;
+        state = new Available();
     }
 
     @Override
-    public void reserv(Subscriber sub) {
-        try {
-            this.getState().reserv(this);
-            setSubscriber(sub);
-        } catch (NotAvailableException e) {
-
-        }
+    public int getNum() {
+        return this.num;
     }
 
     @Override
-    public void borrow(Subscriber sub) {
-        try {
-            this.getState().borrow(this, sub);
-
-        } catch (NotAvailableException e) {
-        }
+    public void reserv(Subscriber sub) throws NotAvailableException {
+        state.reserv(sub, this);
     }
 
     @Override
-    public void back(Subscriber sub) {
-        try {
-            this.getState().back(this);
-            setSubscriber(null);
-        } catch (NotAvailableException e) {
-        }
+    public void borrow(Subscriber sub) throws NotAvailableException {
+        state.borrow(sub, this);
+    }
+
+    @Override
+    public void back(Subscriber sub) throws NotAvailableException {
+        state.back(this);
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

@@ -1,23 +1,26 @@
 package state;
 
 import exception.NotAvailableException;
-import library.GenericDocument;
+import library.Book;
 import library.Subscriber;
 
 public abstract class State {
 
-    public abstract void  reserv(GenericDocument document) throws NotAvailableException;
+    Subscriber subscriber;
+
+    public abstract void reserv(Subscriber subscriber, Book book) throws NotAvailableException;
 
     /**
      * Allow a newSub to borrow the Doc
-     * @param newSub
      * @throws NotAvailableException
+     * @param subscriber
+     * @param book
      */
-    public abstract void borrow(GenericDocument document, Subscriber newSub) throws NotAvailableException;
+    public abstract void borrow(Subscriber subscriber, Book book) throws NotAvailableException;
 
     /**
      * Allow a sub to give back the Doc
-     * @param sub
+     * @param book
      */
-    public abstract void back(GenericDocument document) throws NotAvailableException;
+    public abstract void back(Book book) throws NotAvailableException;
 }

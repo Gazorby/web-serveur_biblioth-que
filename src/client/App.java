@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class App {
 
-    private static final String HOST = "86.245.130.0";
+    private static final String HOST = "localhost";
 
     public static void main(String[] args) throws IOException {
 
@@ -46,6 +46,9 @@ public class App {
                 if (line.matches("((\\d+)[,](\\d+))") || line.equals("stop")) {
                     sout.println(line);
                 }
+
+                System.out.println(sin.readLine());
+
             } while (!line.equals("stop"));
 
         }

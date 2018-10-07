@@ -13,7 +13,7 @@ public abstract class Service implements Runnable {
     int numero;
     BufferedReader in;
     String line;
-    private PrintWriter out;
+    PrintWriter out;
 
     protected Service(Socket client) {
         this.client = client;

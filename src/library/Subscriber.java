@@ -1,6 +1,7 @@
 package library;
 
 public class Subscriber {
+
     private int num;
 
     public Subscriber(int num) {
