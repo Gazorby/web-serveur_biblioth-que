@@ -28,5 +28,5 @@ public interface Document {
      * Allow a sub to give back the Doc
      * @param sub
      */
-    void back(Subscriber sub);
+    void back(Subscriber sub) throws NotAvailableException;
 }

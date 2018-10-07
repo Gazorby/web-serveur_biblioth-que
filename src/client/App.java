@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class App {
 
-    private static final String HOST = "localhost";
+    private static final String HOST = "86.245.130.0";
 
     public static void main(String[] args) throws IOException {
 
