@@ -8,6 +8,7 @@ public class Book implements Document {
 
     private int num;
     private State state;
+    private Subscriber sub;
 
     public Book(int num) {
         this.num = num;
@@ -21,12 +22,13 @@ public class Book implements Document {
 
     @Override
     public void reserv(Subscriber sub) throws NotAvailableException {
-        state.reserv(sub, this);
+        state.reserv(this);
+        this.sub = sub;
     }
 
     @Override
     public void borrow(Subscriber sub) throws NotAvailableException {
-        state.borrow(sub, this);
+            state.borrow(this, sub);
     }
 
     @Override
@@ -36,5 +38,13 @@ public class Book implements Document {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Subscriber getSub() {
+        return sub;
+    }
+
+    public void setSub(Subscriber sub) {
+        this.sub = sub;
     }
 }

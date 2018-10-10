@@ -6,15 +6,13 @@ import library.Subscriber;
 
 public class Available extends State {
     @Override
-    public void reserv(Subscriber subscriber, Book book) {
+    public void reserv(Book book) {
         book.setState(new Reserved());
-        this.subscriber = subscriber;
     }
 
     @Override
-    public void borrow(Subscriber subscriber, Book book) {
+    public void borrow(Book book, Subscriber subscriber) {
         book.setState(new Borrowed());
-        this.subscriber = subscriber;
     }
 
     @Override
