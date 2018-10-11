@@ -22,8 +22,6 @@ public class ReservationService extends Service {
                 line = in.readLine();
                 if (line.equals("stop")) { break; }
                 reserv();
-                // debug
-                System.out.println(Library.books.get(Integer.parseInt(line.substring(0, 1))).getNum());
 
             } while (true);
 

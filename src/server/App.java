@@ -13,7 +13,6 @@ public class App {
         try {
             // instanciate factory
             factory = new FactoryServices();
-
             new Thread(new Server(PORTS.RESERVATION_PORT.getValue(), factory)).start();
             new Thread(new Server(PORTS.BORROW_PORT.getValue(), factory)).start();
             new Thread(new Server(PORTS.BACK_PORT.getValue(), factory)).start();

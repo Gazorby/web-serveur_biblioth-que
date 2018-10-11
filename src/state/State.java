@@ -4,10 +4,19 @@ import exception.NotAvailableException;
 import library.Book;
 import library.Subscriber;
 
+import java.util.Timer;
+
 public abstract class State {
 
-    Subscriber subscriber;
+    private Timer t;
 
+    public void startTimer() {
+        this.t = new Timer();
+    }
+
+    public Timer getTimer() {
+        return this.t;
+    }
     public abstract void reserv(Book book) throws NotAvailableException;
 
     /**
