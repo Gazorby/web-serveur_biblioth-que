@@ -1,8 +1,8 @@
 package services;
 
 import exception.NotAvailableException;
-import library.Library;
-import library.Subscriber;
+import library.Document;
+import server.DELAYS;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -18,28 +18,29 @@ public class ReservationService extends Service {
             super.run();
 
             do {
-                // debug
                 line = in.readLine();
-                if (line.equals("stop")) { break; }
+                if (line.equals("stop") || line.equals("change")) { break; }
                 reserv();
 
             } while (true);
 
         } catch (IOException e) {}
 
-        System.out.println("*********Connexion " + this.numero + " terminated");
+        System.out.println("********* Connexion " + this.serviceNum + " terminated");
 
         try { client.close(); } catch (IOException e2) { }
     }
 
-    private void reserv() {
-        int docNum = Integer.parseInt(line.substring(0, 1));
-        int subNum = Integer.parseInt(line.substring(2,3));
-        Subscriber subscriber = Library.subscribers.get(subNum);
+    @Override
+    protected String getServiceName() {
+        return "Reservation service";
+    }
 
+    private void reserv() {
         try {
-            Library.books.get(docNum).reserv(subscriber);
-            out.println("You reserved document " + docNum);
+            Document document = super.getDocFromLine(line);
+            document.reserv(super.getSubFromLine(line));
+            out.println(String.format("You reserved document %d for %d sec", document.getNum(), DELAYS.RES_DELAY.getValue() / 1000));
         } catch (NotAvailableException e) {
             out.println(e.getMessage());
         }

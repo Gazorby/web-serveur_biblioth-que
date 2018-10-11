@@ -1,6 +1,7 @@
 package library;
 
 import exception.NotAvailableException;
+import server.DELAYS;
 import services.EndReservation;
 import state.Available;
 import state.State;
@@ -10,7 +11,6 @@ public class Book implements Document {
     private int num;
     private State state;
     private Subscriber sub;
-    private static final int RESERVATION_DELAY = 10000;
 
     public Book(int num) {
         this.num = num;
@@ -25,10 +25,9 @@ public class Book implements Document {
     @Override
     public void reserv(Subscriber sub) throws NotAvailableException {
         if (this.state.getClass().equals(Available.class)) {
-            System.out.println("debug");
             this.state.startTimer();
             this.sub = sub;
-            this.state.getTimer().schedule(new EndReservation(this, this.state.getTimer()), this.getReservationDelay());
+            this.state.getTimer().schedule(new EndReservation(this, this.state.getTimer()), DELAYS.RES_DELAY.getValue());
         }
         state.reserv(this);
     }
@@ -53,9 +52,5 @@ public class Book implements Document {
 
     public Subscriber getSubscriber() {
         return this.sub;
-    }
-
-    public int getReservationDelay() {
-        return RESERVATION_DELAY;
     }
 }

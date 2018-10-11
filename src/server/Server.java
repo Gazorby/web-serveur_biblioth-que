@@ -6,12 +6,12 @@ import java.net.ServerSocket;
 
 public class Server implements Runnable {
 	private ServerSocket listenSocket;
-	private int port;
+	private PORTS port;
 	private Factory factory;
 	
 	// Cree un server TCP - objet de la classe ServerSocket
-	Server(int port, Factory factory) throws IOException {
-		listenSocket = new ServerSocket(port);
+	Server(PORTS port, Factory factory) throws IOException {
+		listenSocket = new ServerSocket(port.getValue());
 		this.factory = factory;
 		this.port = port;
 	}
@@ -26,15 +26,15 @@ public class Server implements Runnable {
 
 				switch (port) {
 
-					case 2500 :
+					case RESERVATION_PORT:
 						factory.getResService(listenSocket.accept()).launch();
 						break;
 
-					case 2600 :
+					case BORROW_PORT:
 						factory.getBorrowService(listenSocket.accept()).launch();
 						break;
 
-					case 2700 :
+					case BACK_PORT :
 						factory.getBackService(listenSocket.accept()).launch();
 						break;
 

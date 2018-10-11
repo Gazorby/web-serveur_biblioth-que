@@ -1,8 +1,7 @@
 package services;
 
 import exception.NotAvailableException;
-import library.Library;
-import library.Subscriber;
+import library.Document;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -18,7 +17,6 @@ public class BorrowService extends Service {
             super.run();
 
             do {
-                // debug
                 line = in.readLine();
                 if (line.equals("stop") || line.equals("change")) { break; }
                 borrow();
@@ -27,19 +25,21 @@ public class BorrowService extends Service {
 
         } catch (IOException e) {}
 
-        System.out.println("*********Connexion " + this.numero + " terminated");
+        System.out.println("********* Connexion " + this.serviceNum + " terminated");
 
         try { client.close(); } catch (IOException e2) { }
     }
 
-    private void borrow() {
-        int docNum = Integer.parseInt(line.substring(0, 1));
-        int subNum = Integer.parseInt(line.substring(2,3));
-        Subscriber subscriber = Library.subscribers.get(subNum);
+    @Override
+    protected String getServiceName() {
+        return "Borrow service";
+    }
 
+    private void borrow() {
         try {
-            Library.books.get(docNum).borrow(subscriber);
-            out.println("You borrowed document " + docNum);
+            Document document = super.getDocFromLine(line);
+            document.borrow(super.getSubFromLine(line));
+            out.println("You borrowed document " + document.getNum());
         } catch (NotAvailableException e) {
             out.println(e.getMessage());
         }

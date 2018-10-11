@@ -24,36 +24,38 @@ public class App {
           - Socket
           - BufferedReader reading the socket OutputStream
           - PrintWriter writing to the socket InputStream
-
           */
 
         try (   BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
                 Socket socket = new Socket(HOST, getPort(keyboard));
                 BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter sout = new PrintWriter(socket.getOutputStream(), true)) {
-
             // Inform the user he's connected
             System.out.println("Connecté au serveur " + socket.getInetAddress() + ":" + socket.getPort());
 
 
             do {
                 System.out.println("Give the book number and your subscriber id separated by a coma\n" +
-                        "enter \"stop\" to quit");
+                        "enter \"stop\" to quit, or \"change\" to change service");
 
                 line = keyboard.readLine();
 
-                // look for "bookNum,subNum" pattern
-                if (line.matches("((\\d+)[,](\\d+))") || line.equals("stop")) {
+                // look for "int,int" pattern OR "stop" OR "change"
+                if (line.matches("((\\d+)[,](\\d+))") || line.equals("stop") || line.equals("change")) {
                     sout.println(line);
+
+                    if (line.equals("change")) {
+                        App.main(new String[1]);
+                        System.out.println("\n");
+                        System.exit(0);
+                    }
                 }
 
                 System.out.println(sin.readLine());
 
             } while (!line.equals("stop"));
-
         }
     }
-
         /**
          * Return the user choice
          * @param keyboard, bufferReader representing the keyboard
