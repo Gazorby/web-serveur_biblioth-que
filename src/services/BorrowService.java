@@ -2,6 +2,7 @@ package services;
 
 import exception.NotAvailableException;
 import library.Document;
+import library.Subscriber;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -38,7 +39,9 @@ public class BorrowService extends Service {
     private void borrow() {
         try {
             Document document = super.getDocFromLine(line);
-            document.borrow(super.getSubFromLine(line));
+            Subscriber subscriber = super.getSubFromLine(line);
+
+            document.borrow(subscriber);
             out.println("You borrowed document " + document.getNum());
         } catch (NotAvailableException e) {
             out.println(e.getMessage());

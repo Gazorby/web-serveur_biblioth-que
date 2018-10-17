@@ -1,7 +1,6 @@
-package services;
+package library;
 
 import exception.NotAvailableException;
-import library.Book;
 
 import java.util.Timer;
 import java.util.TimerTask;

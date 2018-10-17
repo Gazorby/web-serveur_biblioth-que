@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Library {
 
-    public static Map<Integer, Subscriber> subscribers = new HashMap<>();
-    public static Map<Integer, Book> books = new HashMap<>();
+    private static Map<Integer, Subscriber> subscribers = new HashMap<>();
+    private static Map<Integer, Book> books = new HashMap<>();
 
     static {
         subscribers.put(1, new Subscriber(1));
@@ -20,7 +20,11 @@ public class Library {
         books.put(3, new Book(3));
     }
 
-    public Document getDocument(int num) {
+    public static Document getDocument(int num) {
         return books.get(num);
+    }
+
+    public static Subscriber getSubscriber(int num) {
+        return subscribers.get(num);
     }
 }

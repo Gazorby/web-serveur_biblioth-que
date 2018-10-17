@@ -44,10 +44,10 @@ public abstract class Service implements Runnable {
     }
 
     Document getDocFromLine(String s) {
-        return Library.books.get(Integer.parseInt(s.substring(0, 1)));
+        return Library.getDocument(Integer.parseInt(s.substring(0, 1)));
     }
 
     Subscriber getSubFromLine(String s) {
-        return Library.subscribers.get(Integer.parseInt(s.substring(2,3)));
+        return Library.getSubscriber(Integer.parseInt(s.substring(2,3)));
     }
 }
