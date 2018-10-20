@@ -1,22 +1,11 @@
 package state;
 
-import exception.NotAvailableException;
+import exceptions.NotAvailableException;
 import library.Book;
 import library.Subscriber;
 
-import java.util.Timer;
-
 public abstract class State {
 
-    private Timer t;
-
-    public void startTimer() {
-        this.t = new Timer();
-    }
-
-    public Timer getTimer() {
-        return this.t;
-    }
     public abstract void reserv(Book book) throws NotAvailableException;
 
     /**
@@ -29,7 +18,6 @@ public abstract class State {
 
     /**
      * Allow a sub to give back the Doc
-     * @param book
      */
-    public abstract void back(Book book) throws NotAvailableException;
+    public abstract void back(Book book);
 }

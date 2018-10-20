@@ -1,19 +1,19 @@
 package state;
 
-import exception.NotAvailableException;
+import exceptions.AlreadyBorrowed;
 import library.Book;
 import library.Subscriber;
 
 public class Borrowed extends State {
 
     @Override
-    public void reserv(Book book) throws NotAvailableException {
-        throw new NotAvailableException("Document is borrowed");
+    public void reserv(Book book) throws AlreadyBorrowed {
+        throw new AlreadyBorrowed(book, book.getSubscriber());
     }
 
     @Override
-    public void borrow(Book book, Subscriber subscriber) throws NotAvailableException {
-        throw new NotAvailableException("Document already borrowed");
+    public void borrow(Book book, Subscriber subscriber) throws AlreadyBorrowed {
+        throw new AlreadyBorrowed(book,  book.getSubscriber());
     }
 
     @Override

@@ -35,13 +35,20 @@ public class App {
 
 
             do {
-                System.out.println("Give the book number and your subscriber id separated by a coma\n" +
-                        "enter \"stop\" to quit, or \"change\" to change service");
+                if (socket.getPort() == PORTS.BACK_PORT.getValue()) {
+                    System.out.println("Give the book number\n" +
+                                       "enter \"stop\" to quit, or \"change\" to change service");
+                }
+
+                else {
+                    System.out.println("Give the book number and your subscriber id separated by a coma\n" +
+                                       "enter \"stop\" to quit, or \"change\" to change service");
+                }
 
                 line = keyboard.readLine();
 
                 // look for "int,int" pattern OR "stop" OR "change"
-                if (line.matches("((\\d+)[,](\\d+))") || line.equals("stop") || line.equals("change")) {
+                if (checkLine(socket, line)) {
                     sout.println(line);
 
                     if (line.equals("change")) {
@@ -68,10 +75,10 @@ public class App {
             PORTS port;
 
             do {
-                System.out.println("1.Borrow\n" +
-                        "2.Reserv\n" +
-                        "3.Bring back a doc\n" +
-                        "Your choice : ");
+                System.out.println( "1.Borrow\n" +
+                                    "2.Reserv\n" +
+                                    "3.Bring back a doc\n" +
+                                    "Your choice : ");
 
                 choice = keyboard.readLine();
 
@@ -93,4 +100,13 @@ public class App {
 
             return port.getValue();
         }
-    }
+
+        private static boolean checkLine(Socket socket, String s) {
+
+            String borrowOrReserv = "((\\d+)[,](\\d+))";
+            String back = "(\\d)";
+
+            return s.matches(back) && socket.getPort() == PORTS.BACK_PORT.getValue() ||
+                    s.matches(borrowOrReserv) || s.equals("stop") || s.equals("change");
+        }
+}

@@ -1,5 +1,7 @@
 package services;
 
+import exceptions.DocumentNotFound;
+import exceptions.SubscriberNotFound;
 import library.Document;
 import library.Library;
 import library.Subscriber;
@@ -15,7 +17,6 @@ public abstract class Service implements Runnable {
     private static int cpt = 1;
     protected final Socket client;
     int serviceNum;
-    BufferedReader in;
     String line;
     PrintWriter out;
 
@@ -26,6 +27,8 @@ public abstract class Service implements Runnable {
 
     @Override
     public void run() {
+        BufferedReader in;
+
         System.out.println("********* Connexion " + this.serviceNum + " started on " + this.getServiceName());
 
         try {
@@ -33,9 +36,20 @@ public abstract class Service implements Runnable {
             out = new PrintWriter(client.getOutputStream(), true);
             System.out.println("Connexion " + this.serviceNum);
 
+            do {
+                line = in.readLine();
+                if (line.equals("stop") || line.equals("change")) {
+                    break;
+                }
+                serviceCore();
+
+            } while (true);
+
         } catch (IOException e) {}
 
     }
+
+    abstract void serviceCore();
 
     protected abstract String getServiceName();
 
@@ -43,11 +57,30 @@ public abstract class Service implements Runnable {
         new Thread(this).start();
     }
 
-    Document getDocFromLine(String s) {
-        return Library.getDocument(Integer.parseInt(s.substring(0, 1)));
+    Document getDocFromLine(String s) throws DocumentNotFound {
+        int num = Integer.parseInt(s.split("[,]")[0]);
+        Document document = Library.getDocument(num);
+
+        if (document == null) {
+            throw new DocumentNotFound(num);
+        }
+
+        else {
+            return document;
+        }
     }
 
-    Subscriber getSubFromLine(String s) {
-        return Library.getSubscriber(Integer.parseInt(s.substring(2,3)));
+    Subscriber getSubFromLine(String s) throws SubscriberNotFound {
+        int num = Integer.parseInt(s.split("[,]")[1]);
+
+        Subscriber subscriber = Library.getSubscriber(num);
+
+        if (subscriber == null) {
+            throw new SubscriberNotFound(num);
+        }
+
+        else {
+            return subscriber;
+        }
     }
 }

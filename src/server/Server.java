@@ -46,7 +46,7 @@ public class Server implements Runnable {
 		}
 		catch (IOException e) { 
 			try {this.listenSocket.close();} catch (IOException e1) {}
-			System.err.println("Pb sur le port d'écoute :"+e);
+			System.err.println("Error on listening port :"+e);
 		}
 	}
 }

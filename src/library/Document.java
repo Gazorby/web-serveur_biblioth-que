@@ -1,6 +1,6 @@
 package library;
 
-import exception.NotAvailableException;
+import exceptions.NotAvailableException;
 
 public interface Document {
 
@@ -26,7 +26,6 @@ public interface Document {
 
     /**
      * Allow a sub to give back the Doc
-     * @param sub
      */
-    void back(Subscriber sub) throws NotAvailableException;
+    void back();
 }

@@ -1,8 +1,7 @@
-package exception;
+package exceptions;
 
 public class NotAvailableException extends Exception {
-
     public NotAvailableException(String message) {
-        super(message);
+        super("[error] " + message);
     }
 }

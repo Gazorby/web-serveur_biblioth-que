@@ -1,8 +1,10 @@
 package services;
 
-import exception.NotAvailableException;
+import exceptions.DocumentNotFound;
+import exceptions.NotAvailableException;
+import exceptions.SubscriberNotFound;
 import library.Document;
-import server.DELAYS;
+import library.Subscriber;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -14,19 +16,9 @@ public class ReservationService extends Service {
 
     @Override
     public void run() {
-        try {
-            super.run();
 
-            do {
-                line = in.readLine();
-                if (line.equals("stop") || line.equals("change")) { break; }
-                reserv();
-
-            } while (true);
-
-        } catch (IOException e) {}
-
-        System.out.println("********* Connexion " + this.serviceNum + " terminated");
+        super.run();
+        System.out.printf("********* Connexion %d terminated", this.serviceNum);
 
         try { client.close(); } catch (IOException e2) { }
     }
@@ -36,12 +28,14 @@ public class ReservationService extends Service {
         return "Reservation service";
     }
 
-    private void reserv() {
+    void serviceCore() {
         try {
             Document document = super.getDocFromLine(line);
-            document.reserv(super.getSubFromLine(line));
-            out.println(String.format("You reserved document %d for %d sec", document.getNum(), DELAYS.RES_DELAY.getValue() / 1000));
-        } catch (NotAvailableException e) {
+            Subscriber subscriber = super.getSubFromLine(line);
+            document.reserv(subscriber);
+            out.println(String.format("document n° %d is reserved by subscriber n° %d", document.getNum(), subscriber.getNum()));
+
+        } catch (NotAvailableException | DocumentNotFound | SubscriberNotFound e) {
             out.println(e.getMessage());
         }
     }

@@ -1,7 +1,6 @@
 package library;
 
-import exception.NotAvailableException;
-import server.DELAYS;
+import exceptions.NotAvailableException;
 import state.Available;
 import state.State;
 
@@ -23,21 +22,18 @@ public class Book implements Document {
 
     @Override
     public void reserv(Subscriber sub) throws NotAvailableException {
-        if (this.state.getClass().equals(Available.class)) {
-            this.state.startTimer();
-            this.sub = sub;
-            this.state.getTimer().schedule(new EndReservation(this, this.state.getTimer()), DELAYS.RES_DELAY.getValue());
-        }
         state.reserv(this);
+        this.sub = sub;
     }
 
     @Override
     public void borrow(Subscriber sub) throws NotAvailableException {
             state.borrow(this, sub);
+            this.sub = sub;
     }
 
     @Override
-    public void back(Subscriber sub) throws NotAvailableException {
+    public void back() {
         state.back(this);
     }
 
