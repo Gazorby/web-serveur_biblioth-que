@@ -6,13 +6,11 @@ import java.io.IOException;
 
 public class App {
 
-    private static Factory factory;
-
     public static void main(String[] args) {
 
         try {
-            // instanciate factory
-            factory = new FactoryServices();
+            // instantiate factory
+            Factory factory = new FactoryServices();
             new Thread(new Server(PORTS.RESERVATION_PORT, factory)).start();
             new Thread(new Server(PORTS.BORROW_PORT, factory)).start();
             new Thread(new Server(PORTS.BACK_PORT, factory)).start();

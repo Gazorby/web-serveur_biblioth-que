@@ -27,9 +27,10 @@ public abstract class Service implements Runnable {
 
     @Override
     public void run() {
+
         BufferedReader in;
 
-        System.out.println("********* Connexion " + this.serviceNum + " started on " + this.getServiceName());
+        System.out.printf("********* Connexion %d started on %s%n", this.serviceNum, this.getServiceName());
 
         try {
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -49,14 +50,30 @@ public abstract class Service implements Runnable {
 
     }
 
+    /**
+     * Service specific code
+     */
     abstract void serviceCore();
 
+    /**
+     * String representation of the service
+     * @return a String representing the service name
+     */
     protected abstract String getServiceName();
 
+    /**
+     * launch the service
+     */
     public void launch () {
         new Thread(this).start();
     }
 
+    /**
+     * Get document object corresponding to the id given in String s
+     * @param s String to parse to get the document id. Typically string to parse is : "bookID,subID" or "bookID"
+     * @return the document corresponding to the id, or null if id doesn't match
+     * @throws DocumentNotFound if the id doesn't match
+     */
     Document getDocFromLine(String s) throws DocumentNotFound {
         int num = Integer.parseInt(s.split("[,]")[0]);
         Document document = Library.getDocument(num);
@@ -70,6 +87,12 @@ public abstract class Service implements Runnable {
         }
     }
 
+    /**
+     * Get Subscriber object corresponding to the id given in String s
+     * @param s String to parse to get the subscriber id; Typically string to parse is : "bookID,subID" or "bookID"
+     * @return the subscriber corresponding to the id, or null if id doesn't match
+     * @throws SubscriberNotFound if the id doesn't match
+     */
     Subscriber getSubFromLine(String s) throws SubscriberNotFound {
         int num = Integer.parseInt(s.split("[,]")[1]);
 

@@ -12,6 +12,10 @@ public enum PORTS {
         this.port = port;
     }
 
+    /**
+     * Get the value of the port
+     * @return an Integer representing the value of the port
+     */
     public int getValue() {
         return this.port;
     }

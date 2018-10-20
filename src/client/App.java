@@ -63,50 +63,56 @@ public class App {
             } while (!line.equals("stop"));
         }
     }
-        /**
-         * Return the user choice
-         * @param keyboard, bufferReader representing the keyboard
-         * @return an int as the user choice
-         * @throws IOException
-         */
-        private static int getPort (BufferedReader keyboard) throws IOException {
+    /**
+     * Return the user choice
+     * @param keyboard, bufferReader representing the keyboard
+     * @return an int representing the user choice
+     * @throws IOException because we are using a BufferReader
+     */
+    private static int getPort (BufferedReader keyboard) throws IOException {
 
-            String choice;
-            PORTS port;
+        String choice;
+        PORTS port;
 
-            do {
-                System.out.println( "1.Borrow\n" +
-                                    "2.Reserv\n" +
-                                    "3.Bring back a doc\n" +
-                                    "Your choice : ");
+        do {
+            System.out.println( "1.Borrow\n" +
+                                "2.Reserv\n" +
+                                "3.Bring back a doc\n" +
+                                "Your choice : ");
 
-                choice = keyboard.readLine();
+            choice = keyboard.readLine();
 
-                switch (choice) {
-                    case "1":
-                        port = PORTS.BORROW_PORT;
-                        break;
-                    case "2":
-                        port = PORTS.RESERVATION_PORT;
-                        break;
-                    case "3":
-                        port = PORTS.BACK_PORT;
-                        break;
-                    default:
-                        port = PORTS.NONE;
-                }
+            switch (choice) {
+                case "1":
+                    port = PORTS.BORROW_PORT;
+                    break;
+                case "2":
+                    port = PORTS.RESERVATION_PORT;
+                    break;
+                case "3":
+                    port = PORTS.BACK_PORT;
+                    break;
+                default:
+                    port = PORTS.NONE;
+            }
 
-            } while (port == PORTS.NONE);
+        } while (port == PORTS.NONE);
 
-            return port.getValue();
-        }
+        return port.getValue();
+    }
 
-        private static boolean checkLine(Socket socket, String s) {
+    /**
+     * Check the syntax of the line written by the user
+     * @param socket, the client socket : needed to know the service on which the client started
+     * @param s, String to check
+     * @return true if syntax is correct, false otherwise
+     */
+    private static boolean checkLine(Socket socket, String s) {
 
-            String borrowOrReserv = "((\\d+)[,](\\d+))";
-            String back = "(\\d)";
+        String borrowOrReserv = "((\\d+)[,](\\d+))";
+        String back = "(\\d)";
 
-            return s.matches(back) && socket.getPort() == PORTS.BACK_PORT.getValue() ||
-                    s.matches(borrowOrReserv) || s.equals("stop") || s.equals("change");
-        }
+        return s.matches(back) && socket.getPort() == PORTS.BACK_PORT.getValue() ||
+                s.matches(borrowOrReserv) || s.equals("stop") || s.equals("change");
+    }
 }

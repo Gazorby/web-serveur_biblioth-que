@@ -9,16 +9,15 @@ public class Server implements Runnable {
 	private PORTS port;
 	private Factory factory;
 	
-	// Cree un server TCP - objet de la classe ServerSocket
+	// Create a TCP server
 	Server(PORTS port, Factory factory) throws IOException {
 		listenSocket = new ServerSocket(port.getValue());
 		this.factory = factory;
 		this.port = port;
 	}
 
-	/** Le server ecoute et accepte les connexions.
-	    pour chaque connexion, il cree un ServiceInversion,
-	    qui va la traiter, et le lance
+	/** Server is listening for connections and accept them.
+	    for each connection, it instantiate and launch the corresponding service
      */
 	public void run() {
 		try {
