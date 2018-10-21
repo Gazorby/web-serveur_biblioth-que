@@ -20,20 +20,30 @@ public class Book implements Document {
         return this.num;
     }
 
+    /**
+     * Reserv this book to the sub given
+     * @param sub the sub who want to reserv
+     * @throws NotAvailableException if book isn't available
+     */
     @Override
-    public void reserv(Subscriber sub) throws NotAvailableException {
-        state.reserv(this);
+    public synchronized void reserv(Subscriber sub) throws NotAvailableException {
+        state.reserv(this, sub);
         this.sub = sub;
     }
 
+    /**
+     * Allow sub given in parameter to borrow this book
+     * @param sub who want to borrow
+     * @throws NotAvailableException if this book isn't available
+     */
     @Override
-    public void borrow(Subscriber sub) throws NotAvailableException {
+    public synchronized void borrow(Subscriber sub) throws NotAvailableException {
             state.borrow(this, sub);
             this.sub = sub;
     }
 
     @Override
-    public void back() {
+    public synchronized void back() {
         state.back(this);
     }
 

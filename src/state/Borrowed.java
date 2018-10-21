@@ -7,13 +7,13 @@ import library.Subscriber;
 public class Borrowed extends State {
 
     @Override
-    public void reserv(Book book) throws AlreadyBorrowed {
-        throw new AlreadyBorrowed(book, book.getSubscriber());
+    public void reserv(Book book, Subscriber applicantSub) throws AlreadyBorrowed {
+        throw new AlreadyBorrowed(book, book.getSubscriber(), applicantSub);
     }
 
     @Override
-    public void borrow(Book book, Subscriber subscriber) throws AlreadyBorrowed {
-        throw new AlreadyBorrowed(book,  book.getSubscriber());
+    public void borrow(Book book, Subscriber applicantSub) throws AlreadyBorrowed {
+        throw new AlreadyBorrowed(book,  book.getSubscriber(), applicantSub);
     }
 
     @Override

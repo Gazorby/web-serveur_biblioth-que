@@ -36,12 +36,12 @@ public class App {
 
             do {
                 if (socket.getPort() == PORTS.BACK_PORT.getValue()) {
-                    System.out.println("Give the book number\n" +
+                    System.out.println("\nGive the book number\n" +
                                        "enter \"stop\" to quit, or \"change\" to change service");
                 }
 
                 else {
-                    System.out.println("Give the book number and your subscriber id separated by a coma\n" +
+                    System.out.println("\nGive the book number and your subscriber id separated by a coma\n" +
                                        "enter \"stop\" to quit, or \"change\" to change service");
                 }
 

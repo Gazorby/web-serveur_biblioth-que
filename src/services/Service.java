@@ -19,10 +19,12 @@ public abstract class Service implements Runnable {
     int serviceNum;
     String line;
     PrintWriter out;
+    Library library;
 
-    protected Service(Socket client) {
+    protected Service(Socket client, Library library) {
         this.client = client;
         this.serviceNum = cpt++;
+        this.library = library;
     }
 
     @Override
@@ -76,7 +78,7 @@ public abstract class Service implements Runnable {
      */
     Document getDocFromLine(String s) throws DocumentNotFound {
         int num = Integer.parseInt(s.split("[,]")[0]);
-        Document document = Library.getDocument(num);
+        Document document = library.getDocument(num);
 
         if (document == null) {
             throw new DocumentNotFound(num);
@@ -96,7 +98,7 @@ public abstract class Service implements Runnable {
     Subscriber getSubFromLine(String s) throws SubscriberNotFound {
         int num = Integer.parseInt(s.split("[,]")[1]);
 
-        Subscriber subscriber = Library.getSubscriber(num);
+        Subscriber subscriber = library.getSubscriber(num);
 
         if (subscriber == null) {
             throw new SubscriberNotFound(num);

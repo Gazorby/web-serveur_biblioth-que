@@ -6,14 +6,14 @@ import library.Subscriber;
 
 public class Reserved extends State {
     @Override
-    public void reserv(Book book) throws AlreadyReserved {
+    public void reserv(Book book, Subscriber applicantSub) throws AlreadyReserved {
         throw new AlreadyReserved(book, book.getSubscriber());
     }
 
     @Override
-    public void borrow(Book book, Subscriber subscriber) throws AlreadyReserved {
+    public void borrow(Book book, Subscriber applicantSub) throws AlreadyReserved {
 
-        if (subscriber.getNum() == book.getSub().getNum()) {
+        if (applicantSub.getNum() == book.getSub().getNum()) {
             book.setState(new Borrowed());
         }
 
