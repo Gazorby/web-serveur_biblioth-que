@@ -46,6 +46,7 @@ public abstract class Service implements Runnable {
                 }
                 serviceCore();
 
+
             } while (true);
 
         } catch (IOException e) {}
@@ -107,5 +108,11 @@ public abstract class Service implements Runnable {
         else {
             return subscriber;
         }
+    }
+
+    int getInfoFromLine(String s) {
+        int info = Integer.parseInt(s.split("[,]")[2]);
+        System.out.println("info = " + info);
+        return info;
     }
 }

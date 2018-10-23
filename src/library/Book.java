@@ -27,8 +27,11 @@ public class Book implements Document {
      */
     @Override
     public synchronized void reserv(Subscriber sub) throws NotAvailableException {
-        state.reserv(this, sub);
-        this.sub = sub;
+        if (sub.isAllowed()) {
+            state.reserv(this, sub);
+            this.sub = sub;
+        }
+        else throw new NotAvailableException("You're banned from book reservation");
     }
 
     /**
@@ -38,13 +41,19 @@ public class Book implements Document {
      */
     @Override
     public synchronized void borrow(Subscriber sub) throws NotAvailableException {
+        if (sub.isAllowed()) {
             state.borrow(this, sub);
             this.sub = sub;
+        }
+        else throw new NotAvailableException("You're banned from borrowing");
     }
 
     @Override
-    public synchronized void back() {
-        state.back(this);
+    public synchronized void back() throws NotAvailableException {
+        if (sub.isAllowed()) {
+            state.back(this);
+        }
+        else throw new NotAvailableException("You can't back any document");
     }
 
     public void setState(State state) {

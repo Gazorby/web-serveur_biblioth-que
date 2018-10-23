@@ -36,7 +36,7 @@ public class App {
 
             do {
                 if (socket.getPort() == PORTS.BACK_PORT.getValue()) {
-                    System.out.println("\nGive the book number\n" +
+                    System.out.println("\nGive the book number, your subscriber id, and digit 1 if it's broken or 0 if not, all separated by comas\n" +
                                        "enter \"stop\" to quit, or \"change\" to change service");
                 }
 
@@ -110,7 +110,7 @@ public class App {
     private static boolean checkLine(Socket socket, String s) {
 
         String borrowOrReserv = "((\\d+)[,](\\d+))";
-        String back = "(\\d)";
+        String back = "(\\d+)[,](\\d+)[,](\\d+)";
 
         return s.matches(back) && socket.getPort() == PORTS.BACK_PORT.getValue() ||
                 s.matches(borrowOrReserv) || s.equals("stop") || s.equals("change");

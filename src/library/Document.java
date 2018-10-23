@@ -27,5 +27,5 @@ public interface Document {
     /**
      * Allow a sub to give back the Doc
      */
-    void back();
+    void back() throws NotAvailableException;
 }
