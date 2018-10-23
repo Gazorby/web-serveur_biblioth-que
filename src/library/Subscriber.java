@@ -35,6 +35,7 @@ public class Subscriber {
             //System.out.println(now.get(Calendar.YEAR) + "/" + now.get(Calendar.MONTH) + "/" + now.get(Calendar.DAY_OF_MONTH));
             //System.out.println(tmp.get(Calendar.YEAR) + "/" + tmp.get(Calendar.MONTH) + "/" + tmp.get(Calendar.DAY_OF_MONTH));
             //System.out.println(this.banDate.get(Calendar.YEAR) + "/" + this.banDate.get(Calendar.MONTH) + "/" + this.banDate.get(Calendar.DAY_OF_MONTH));
+
             if (diff < diff2)
                 return false;
             else {

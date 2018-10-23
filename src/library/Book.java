@@ -4,11 +4,16 @@ import exceptions.NotAvailableException;
 import state.Available;
 import state.State;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class Book implements Document {
 
     private int num;
     private State state;
     private Subscriber sub;
+    private GregorianCalendar borrowDate;
 
     public Book(int num) {
         this.num = num;
@@ -44,6 +49,7 @@ public class Book implements Document {
         if (sub.isAllowed()) {
             state.borrow(this, sub);
             this.sub = sub;
+            this.borrowDate = new GregorianCalendar();
         }
         else throw new NotAvailableException("You're banned from borrowing");
     }
@@ -54,6 +60,9 @@ public class Book implements Document {
             state.back(this);
         }
         else throw new NotAvailableException("You can't back any document");
+        if (lateReturnCheck()) {
+            this.sub.updateStatus();
+        }
     }
 
     public void setState(State state) {
@@ -66,5 +75,19 @@ public class Book implements Document {
 
     public Subscriber getSubscriber() {
         return this.sub;
+    }
+
+    public boolean lateReturnCheck() {
+        GregorianCalendar  now = new GregorianCalendar();
+        GregorianCalendar tmp = (GregorianCalendar) this.borrowDate.clone();
+        tmp.set(Calendar.DAY_OF_MONTH, this.borrowDate.get(Calendar.DAY_OF_MONTH) + 14);
+        now.setTime(new Date());
+        long diff = now.getTimeInMillis() - this.borrowDate.getTimeInMillis();
+        long diff2 = Math.abs(this.borrowDate.getTimeInMillis() - tmp.getTimeInMillis());
+
+        if (diff < diff2)
+            return false;
+        else
+            return true;
     }
 }
