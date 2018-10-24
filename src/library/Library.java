@@ -5,23 +5,32 @@ import exceptions.AlreadyInMailingList;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class Library {
 
     // Using singleton pattern
     private static Library uniqueInstance = null;
-    private static Map<Integer, Document> documents = new HashMap<>();
-    private static Map<Integer, List<Subscriber>> alerts = new HashMap<>();
+    private static ConcurrentMap<Integer, Document> documents = new ConcurrentHashMap<>();
+    private static ConcurrentMap<Integer, List<Subscriber>> alerts = new ConcurrentHashMap<>();
+    private static ConcurrentMap<Integer, Subscriber> subscribers = new ConcurrentHashMap<>();
 
-    private static Map<Integer, Subscriber> subscribers = new HashMap<>();
-
+    /*
+     * Create some subscribers for testing
+     */
     static {
         subscribers.put(1, new Subscriber(1, "mmacnab22@gmail.com"));
         subscribers.put(2, new Subscriber(2, "xavdeverdun@gmail.com"));
-        subscribers.put(3, new Subscriber(3, "mmacnab22@gmail.com"));
+        subscribers.put(3, new Subscriber(3, "lyx@outlook.fr"));
     }
 
+    /*
+     * Create some documents for testing
+     */
     static {
         documents.put(1, new Book(1));
         documents.put(2, new Book(2));
@@ -31,6 +40,10 @@ public class Library {
     private Library() {
     }
 
+    /**
+     * GetInstance method needed for the singleton pattern
+     * @return the same instance of {@link Library} and instantiate it if there's none
+     */
     public static synchronized Library getInstance() {
         if (uniqueInstance == null) {
             return new Library();
@@ -41,17 +54,27 @@ public class Library {
         }
     }
 
-    public synchronized Document getDocument(int num) {
+    /**
+     * Get the document corresponding to the given ID
+     * @param num, document ID
+     * @return a {@link Document} corresponding the ID
+     */
+    public Document getDocument(int num) {
         return documents.get(num);
     }
 
-    public synchronized Subscriber getSubscriber(int num) {
+    /**
+     * Get the subscriber corresponding to the given ID
+     * @param num, the subscriber ID
+     * @return a {@link Subscriber} corresponding to the given ID
+     */
+    public Subscriber getSubscriber(int num) {
         return subscribers.get(num);
     }
 
     /**
      * Add a subscriber to the alert list
-     * @param subscriber, subscriber to be added
+     * @param subscriber, {@link Subscriber} to be added
      */
     public void addAlert(Document document, Subscriber subscriber) throws AlreadyInMailingList {
         if (alerts.get(document.getNum()) != null) {
@@ -73,7 +96,8 @@ public class Library {
     }
 
     /**
-     *
+     * Call sendEmail() for all subscribers mapping the given document ID in the alert map
+     * @param docNum , the documet ID
      */
     public void sendAlert(int docNum) {
 
@@ -135,7 +159,9 @@ public class Library {
             message.setText(String.format("Hello, subscriber n° %d the Document n° %d is back !", receiver.getNum(), document.getNum()));
 
             // Send message
-            Transport.send(message);
+            synchronized (this){
+                Transport.send(message);
+            }
 
             System.out.println("Sent message successfully....");
 

@@ -4,7 +4,7 @@ import exceptions.AlreadyBorrowed;
 import library.Book;
 import library.Subscriber;
 
-public class Borrowed extends State {
+public class Borrowed implements State {
 
     @Override
     public void reserv(Book book, Subscriber applicantSub) throws AlreadyBorrowed {

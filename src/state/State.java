@@ -4,26 +4,26 @@ import exceptions.NotAvailableException;
 import library.Book;
 import library.Subscriber;
 
-public abstract class State {
+public interface State {
 
     /**
-     * Allow a sub to reserv a specific book
+     * Try to set book state to reserved sate
      * @param book, the book to be reserved
-     * @throws NotAvailableException, if the book isn't available
+     * @throws NotAvailableException, if the book can't be set to reserved state
      */
-    public abstract void reserv(Book book, Subscriber applicantSub) throws NotAvailableException;
+    void reserv(Book book, Subscriber applicantSub) throws NotAvailableException;
 
     /**
-     * Allow a sub to borrow the Doc
-     * @throws NotAvailableException if document isn't available
+     * Try to set book state to borrowed state
+     * @throws NotAvailableException if book can't be set to borrowed state
      * @param book, the book to borrow
      * @param applicantSub, sub who want to borrow
      */
-    public abstract void borrow(Book book, Subscriber applicantSub) throws NotAvailableException;
+    void borrow(Book book, Subscriber applicantSub) throws NotAvailableException;
 
     /**
-     * Bring back the book
+     * Try to set book state to back sate
      * @param book, the book to bring back
      */
-    public abstract void back(Book book);
+    void back(Book book);
 }

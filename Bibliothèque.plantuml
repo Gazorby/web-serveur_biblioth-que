@@ -2,14 +2,50 @@
 
 title __LIBRARY's Class Diagram__\n
 
+  package exceptions {
+    class AlreadyBorrowed {
+    }
+  }
+  
+
+  package exceptions {
+    class AlreadyInMailingList {
+    }
+  }
+  
+
+  package exceptions {
+    class AlreadyReserved {
+    }
+  }
+  
+
   package server {
     class App {
     }
   }
   
 
+  package client {
+    class App {
+    }
+  }
+  
+
+  package state {
+    class Available {
+    }
+  }
+  
+
   package services {
     class BackService {
+    }
+  }
+  
+
+  package services {
+    class BackServiceTest {
     }
   }
   
@@ -26,14 +62,26 @@ title __LIBRARY's Class Diagram__\n
   }
   
 
-  package client {
-    class Client {
+  package services {
+    class BorrowServiceTest {
+    }
+  }
+  
+
+  package state {
+    class Borrowed {
     }
   }
   
 
   package library {
     interface Document {
+    }
+  }
+  
+
+  package exceptions {
+    class DocumentNotFound {
     }
   }
   
@@ -56,7 +104,7 @@ title __LIBRARY's Class Diagram__\n
   }
   
 
-  package exception {
+  package exceptions {
     class NotAvailableException {
     }
   }
@@ -74,6 +122,18 @@ title __LIBRARY's Class Diagram__\n
   }
   
 
+  package services {
+    class ReservationServiceTest {
+    }
+  }
+  
+
+  package state {
+    class Reserved {
+    }
+  }
+  
+
   package server {
     class Server {
     }
@@ -86,20 +146,48 @@ title __LIBRARY's Class Diagram__\n
   }
   
 
+  package state {
+    abstract class State {
+    }
+  }
+  
+
+  package exceptions {
+    class SubAlreadyExist {
+    }
+  }
+  
+
   package library {
     class Subscriber {
     }
   }
   
 
+  package exceptions {
+    class SubscriberNotFound {
+    }
+  }
+  
+
+  AlreadyBorrowed -up-|> NotAvailableException
+  AlreadyReserved -up-|> NotAvailableException
+  Available -up-|> State
   BackService -up-|> Service
   Book -up-|> Document
+  Book o-- State : state
+  Book o-- Subscriber : sub
   BorrowService -up-|> Service
+  Borrowed -up-|> State
   FactoryServices -up-|> Factory
   ReservationService -up-|> Service
+  Reserved -up-|> State
   Server -up-|> Runnable
+  Server o-- PORTS : port
   Server o-- Factory : factory
+  Server o-- Library : library
   Service -up-|> Runnable
+  Service o-- Library : library
 
 
 right footer

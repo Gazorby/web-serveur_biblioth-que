@@ -3,7 +3,7 @@ package state;
 import library.Book;
 import library.Subscriber;
 
-public class Available extends State {
+public class Available implements State {
 
     @Override
     public void reserv(Book book, Subscriber applicantSub) {

@@ -15,7 +15,7 @@ import java.net.Socket;
 public abstract class Service implements Runnable {
 
     private static int cpt = 1;
-    protected final Socket client;
+    final Socket client;
     int serviceNum;
     String line;
     PrintWriter out;
@@ -110,9 +110,7 @@ public abstract class Service implements Runnable {
         }
     }
 
-    int getInfoFromLine(String s) {
-        int info = Integer.parseInt(s.split("[,]")[2]);
-        System.out.println("info = " + info);
-        return info;
+    int getDamageFromLine(String s) {
+        return Integer.parseInt(s.split("[,]")[2]);
     }
 }

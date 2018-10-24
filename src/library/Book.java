@@ -1,6 +1,7 @@
 package library;
 
 import exceptions.NotAvailableException;
+import exceptions.SubNotAllowed;
 import state.Available;
 import state.State;
 
@@ -36,7 +37,7 @@ public class Book implements Document {
             state.reserv(this, sub);
             this.sub = sub;
         }
-        else throw new NotAvailableException("You're banned from book reservation");
+        else throw new SubNotAllowed(sub);
     }
 
     /**
@@ -51,43 +52,51 @@ public class Book implements Document {
             this.sub = sub;
             this.borrowDate = new GregorianCalendar();
         }
-        else throw new NotAvailableException("You're banned from borrowing");
+        else throw new SubNotAllowed(sub);
     }
 
+    /**
+     * Bring back the document. Change the state accordingly
+     */
     @Override
-    public synchronized void back() throws NotAvailableException {
-        if (sub.isAllowed()) {
-            state.back(this);
-        }
-        else throw new NotAvailableException("You can't back any document");
+    public synchronized void back() {
+        state.back(this);
+
         if (lateReturnCheck()) {
             this.sub.updateStatus();
         }
     }
 
+    /**
+     * Set the state of the book
+     * @param state, the {@link State} we want the book to be
+     */
     public void setState(State state) {
         this.state = state;
     }
 
-    public Subscriber getSub() {
+    /**
+     * Get the subscriber associated with this book
+     * @return, A {@link Subscriber}, associated with the book
+     */
+    public Subscriber getSubscriber() {
         return sub;
     }
 
-    public Subscriber getSubscriber() {
-        return this.sub;
-    }
-
-    public boolean lateReturnCheck() {
+    /**
+     * If the subscriber associated with this book borrowed it,
+     * this check if the subscriber is delaying bringing it back,
+     * @return true if the subscriber is late, false otherwise
+     */
+    private boolean lateReturnCheck() {
         GregorianCalendar  now = new GregorianCalendar();
         GregorianCalendar tmp = (GregorianCalendar) this.borrowDate.clone();
         tmp.set(Calendar.DAY_OF_MONTH, this.borrowDate.get(Calendar.DAY_OF_MONTH) + 14);
         now.setTime(new Date());
+
         long diff = now.getTimeInMillis() - this.borrowDate.getTimeInMillis();
         long diff2 = Math.abs(this.borrowDate.getTimeInMillis() - tmp.getTimeInMillis());
 
-        if (diff < diff2)
-            return false;
-        else
-            return true;
+        return diff >= diff2;
     }
 }

@@ -1,7 +1,6 @@
 package services;
 
 import exceptions.DocumentNotFound;
-import exceptions.NotAvailableException;
 import exceptions.SubscriberNotFound;
 import library.Document;
 import library.Library;
@@ -14,7 +13,6 @@ public class BackService extends Service {
     public BackService(Socket client, Library library) {
         super(client, library);
     }
-
 
     @Override
     public void run() {
@@ -36,24 +34,22 @@ public class BackService extends Service {
     @Override
     void serviceCore() {
         try {
-            int info = super.getInfoFromLine(line);
+            int info = super.getDamageFromLine(line);
             Document document = super.getDocFromLine(line);
             document.back();
+
             if (info == 0) {
                 library.sendAlert(document.getNum());
                 out.println(String.format("[success] document n° %d is back !", document.getNum()));
             }
             else {
                 library.sendAlert(document.getNum());
-                out.println(String.format("[success] document n° %d is back ! But you're banned from borrowing for 1 month", document.getNum()));super.getSubFromLine(line).updateStatus();
+                out.println(String.format("[success] document n° %d is back ! But you're banned from borrowing for 1 month", document.getNum()));
+                super.getSubFromLine(line).updateStatus();
             }
 
-        } catch (DocumentNotFound documentNotFound) {
-            out.println(documentNotFound.getMessage());
-        } catch (SubscriberNotFound subscriberNotFound) {
-            subscriberNotFound.printStackTrace();
-        } catch (NotAvailableException e) {
-            e.printStackTrace();
+        } catch (DocumentNotFound | SubscriberNotFound e) {
+            out.println(e.getMessage());
         }
     }
 }
